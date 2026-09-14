@@ -1,0 +1,51 @@
+## request
+
+1- request Line
+
+    Method          URL          http version
+
+    Post/GET/..     std/depi     HTTP/1.1
+
+
+
+2- headers Line -> metadata -> بيانات عن البيانات
+
+    content-Type : application/JSON
+
+    Authorization -> bearer token : 66811861681jnff55
+
+    Accept : application/JSON -> نوع بيانات الرد
+
+    cookie : Session_id=123
+
+
+3- empty Line
+
+
+4- body -> Method : POST , PUT , Patch 
+        -> Optinal with GET Method
+    {
+        "name" : "Fady",
+        "course" : "ML"
+    }
+
+___________________________________________________________________________________________________
+
+## Respone
+
+1- Status Line
+
+    http version        status code        status text
+
+    HTTP/1.1            200                OK
+
+    content-Type : application/JSON
+
+    content-length : 45
+
+     set-cookie : Session_id=456
+
+    {
+        "name" : "Fady",
+        "course" : "ML"
+    }

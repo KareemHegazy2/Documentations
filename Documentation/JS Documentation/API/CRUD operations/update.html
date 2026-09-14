@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>update</title>
+    <style>
+        table {
+            width: 100%;
+            border: 2px solid black;
+        }
+
+        th,
+        td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+        #done{
+            display: none;
+            color: green;
+        }
+        p#errormsg{
+            display: none;
+            color: red;
+        }
+        #upmsg{
+            display: none;
+            color: green;
+        }
+    </style>
+</head>
+
+
+<body>
+
+    
+    <form action="">
+        <label for="nName">Enter The New Name:</label>
+        <input id="nName" name="name" type="text">
+        <br>
+        <hr>
+        <br>
+        <label for="nEmail">Enter The new Email:</label>
+        <input id="nEmail" name="Email" type="email">
+        <br>
+        <hr>
+        <br>
+        <input type="submit" value="Update">
+    </form>
+    <p id="errormsg">InValid Data , Try Again</p>
+
+    <p id="upmsg">Updating...</p>
+
+    <pre id="done">
+        Updated Successfully
+        Redirecting...
+    </pre>
+</body>
+<script>
+
+     function validate_email(email) {
+         email = email.trim();
+         let email_pattern = /^\w+@[a-zA-Z]+\.(com|edu|org)$/;
+         return email_pattern.test(email);
+     }
+
+     function validate_name(name) {
+         name = name.trim();
+        let name_pattern = /^[a-zA-Z\s]{3,100}$/;
+        return name_pattern.test(name);
+     }
+
+
+
+
+const newName = document.getElementById("nName");
+const newEmail = document.getElementById("nEmail");
+const form = document.forms[0];
+const upmsg = document.getElementById("upmsg")
+const updateemsg = document.getElementById("done");
+const errormsg = document.getElementById("errormsg")
+
+
+form.addEventListener("submit" , (e)=>{
+    e.preventDefault();
+    if (validate_email(newEmail.value) && validate_name(newName.value)) {
+         update = {
+    name : newName.value ,
+    Email : newEmail.value
+}
+jupdate = JSON.stringify(update);
+
+ let xhr = new XMLHttpRequest(); 
+
+let id = location.search.slice(1).split("=")[1];
+
+
+    xhr.open('PUT', `https://6aa53dc21397053d42bb89a3.mockapi.io/DEPI/depi/${id}`);
+
+    // بنعدل نوع البيانات عشان مش بيقبل من فورم
+    xhr.setRequestHeader("content-type", "application/json");
+
+    xhr.send(jupdate);
+xhr.addEventListener('readystatechange', () => {
+
+        if (xhr.readyState == 4 && xhr.status == 200) {
+            errormsg.style.display = "none"
+           upmsg.style.display = "block"
+            updateemsg.style.display = "block"
+            setTimeout(() => {
+                    location.assign("index.html")
+                }, 3500);
+        }
+    }
+    )
+    }
+    else{
+        errormsg.style.display = "block" ; 
+    }
+   
+
+});
+
+   
+
+
+    
+
+
+
+</script>
+<!-- xhr.addEventListener('readystatechange', () => {
+
+        if (xhr.readyState == 4 && xhr.status == 200) {
+
+            let data = JSON.parse(xhr.responseText);
+
+            document.getElementById('tbody').innerHTML += `
+        <tr>
+          <td>${data.id}</td>
+          <td>${data.name} </td>
+          <td>${data.Email}</td>
+        </tr>
+        
+      `;
+
+      
+
+        }
+
+    }) -->
+</html>

@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JS Loops & Control Flow Lab</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+        }
+
+        body {
+            background-color: #0b0f19;
+            color: #e2e8f0;
+            display: flex;
+            min-height: 100vh;
+            padding: 24px;
+            gap: 24px;
+        }
+
+        /* لوحة الشرح والملاحظات */
+        .notes-panel {
+            flex: 1;
+            max-width: 480px;
+            background-color: #111827;
+            border-radius: 12px;
+            padding: 22px;
+            border: 1px solid #1f2937;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .notes-panel h2 {
+            font-size: 20px;
+            color: #38bdf8;
+            border-bottom: 2px solid #1f2937;
+            padding-bottom: 10px;
+        }
+
+        .note-card {
+            background-color: #0b0f19;
+            padding: 14px 16px;
+            border-radius: 8px;
+            border-left: 4px solid #38bdf8;
+            font-size: 13.5px;
+            line-height: 1.6;
+        }
+
+        .note-card.highlight {
+            border-left-color: #f59e0b;
+        }
+
+        .note-card.success {
+            border-left-color: #10b981;
+        }
+
+        .note-card h3 {
+            font-size: 15px;
+            color: #f8fafc;
+            margin-bottom: 6px;
+        }
+
+        code {
+            background-color: #1f2937;
+            color: #f472b6;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 13px;
+        }
+
+        /* شاشة الكونسول المباشر */
+        .console-container {
+            flex: 1.3;
+            background-color: #030712;
+            border: 1px solid #1f2937;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.7);
+        }
+
+        .console-header {
+            background-color: #111827;
+            padding: 14px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #1f2937;
+        }
+
+        .console-header span {
+            font-weight: 600;
+            font-size: 14px;
+            color: #9ca3af;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            background-color: #10b981;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 8px;
+        }
+
+        button.action-btn {
+            background-color: #1f2937;
+            color: #e5e7eb;
+            border: 1px solid #374151;
+            padding: 6px 14px;
+            border-radius: 6px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        button.action-btn:hover {
+            background-color: #374151;
+        }
+
+        .console-output {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 14px;
+            line-height: 1.7;
+        }
+
+        .log-row {
+            padding: 4px 8px;
+            border-radius: 4px;
+            display: flex;
+            gap: 12px;
+            word-break: break-all;
+        }
+
+        .log-row:nth-child(even) {
+            background-color: #080c14;
+        }
+
+        .log-prefix {
+            color: #38bdf8;
+            user-select: none;
+        }
+
+        .log-content {
+            color: #f3f4f6;
+        }
+
+        @media (max-width: 850px) {
+            body {
+                flex-direction: column;
+            }
+            .notes-panel {
+                max-width: 100%;
+            }
+            .console-container {
+                min-height: 450px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- قسم الملاحظات للمذاكرة والتثبيت -->
+    <div class="notes-panel">
+        <h2>Loops & Flow Control Guide</h2>
+
+        <div class="note-card">
+            <h3>1. Block Scope (let vs var in loop)</h3>
+            <code>let</code> تخلق نطاقاً مستقلاً (Block Scope) داخل كل لفة من اللوب، بينما <code>var</code> تنتمي لنطاق الـ Function أو الـ Global، لذا تسرب قيمتها النهائية إلى خارج اللوب.
+        </div>
+
+        <div class="note-card success">
+            <h3>2. For..of vs While vs Do..While</h3>
+            • <code>for..of</code>: أسهل وأوضح طريقة للمرور على عناصر الـ Arrays مباشرة بدون عداد.<br>
+            • <code>while</code>: تفحص الشرط أولاً، وقد لا تنفذ الكود إطلاقاً لو الشرط <code>false</code>.<br>
+            • <code>do..while</code>: تضمن تشغيل الكود <strong>مرة واحدة على الأقل</strong> قبل فحص الشرط.
+        </div>
+
+        <div class="note-card highlight">
+            <h3>3. Break vs Continue</h3>
+            • <code>break</code>: ينهي اللوب بالكامل ويخرج منها فوراً.<br>
+            • <code>continue</code>: يتخطى بقية الكود في اللفة الحالية فقط، وينتقل مباشرة للفة التالية.
+        </div>
+
+        <div class="note-card">
+            <h3>4. Labeled Statements (التحكم باللوب المتداخل)</h3>
+            استخدام <code>continue loop1;</code> يتيح لك القفز من داخل الـ Inner Loop مباشرة إلى اللفة التالية في الـ Outer Loop دون إكمال بقية اللفات الداخلية.
+        </div>
+    </div>
+
+    <!-- تيرمينال المخرجات المباشر -->
+    <div class="console-container">
+        <div class="console-header">
+            <span><span class="dot"></span> Loops Output Console</span>
+            <div class="btn-group">
+                <button class="action-btn" onclick="clearTerminal()">Clear</button>
+                <button class="action-btn" onclick="location.reload()">Re-run</button>
+            </div>
+        </div>
+        <div class="console-output" id="terminal"></div>
+    </div>
+
+    <!-- سكربت التقاط الـ console.log لعرضه على الشاشة -->
+    <script>
+        const terminal = document.getElementById("terminal");
+        const realLog = console.log;
+
+        console.log = function(...args) {
+            realLog.apply(console, args);
+            const row = document.createElement("div");
+            row.className = "log-row";
+            row.innerHTML = `<span class="log-prefix">&gt;</span> <span class="log-content">${args.join(" ")}</span>`;
+            terminal.appendChild(row);
+            terminal.scrollTop = terminal.scrollHeight;
+        };
+
+        function clearTerminal() {
+            terminal.innerHTML = "";
+        }
+    </script>
+
+    <!-- اربط ملف الجافاسكريبت الخاص بك هنا بدون أي تعديل فيه -->
+    <script src="Loops.js"></script>
+</body>
+</html>

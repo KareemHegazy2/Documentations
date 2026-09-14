@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>session</title>
+    <style>
+        table {
+            width: 100%;
+            border: 2px solid black;
+        }
+
+        th,
+        td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+        .read{
+            text-decoration: none;
+            color : green;
+        }
+        .delete{
+        text-decoration: none;
+        color : red;
+        }
+        .update{
+        text-decoration: none;
+        color :rgb(181, 171, 28);
+        }
+    </style>
+</head>
+
+<body>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody id="tbody">
+
+
+        </tbody>
+    </table>
+</body>
+<script>
+
+
+    //XMLHttpRequest -> fetch , axios
+
+    let xhr = new XMLHttpRequest(); // 0
+
+
+
+    xhr.open('GET', 'https://6aa53dc21397053d42bb89a3.mockapi.io/DEPI/depi'); // 1
+
+    xhr.send();
+    const data = [];
+    xhr.addEventListener('readystatechange', () => {
+
+        if (xhr.readyState == 4 && xhr.status == 200) {
+
+            let data = JSON.parse(xhr.responseText);
+
+            for (let i = 0; i < data.length; i++) {
+                document.getElementById('tbody').innerHTML += `
+            <tr>
+          <td>${data[i].id}</td>
+          <td>${data[i].name}</td>
+          <td>${data[i].Email}</td>
+          <td>
+                <a class = "read" href="read.html?id=${data[i].id}">Read</a>
+                <a class = "delete" href="delete.html?id=${data[i].id}">Delete</a>
+                <a class = "update" href="update.html?id=${data[i].id}">Update</a>
+                </td>
+        </tr>
+      `;
+            }
+
+        }
+
+    })
+
+
+
+
+
+
+
+</script>
+
+</html>

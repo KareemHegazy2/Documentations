@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Date Object Lab</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+        }
+
+        body {
+            background-color: #0d131f;
+            color: #d1d5db;
+            display: flex;
+            min-height: 100vh;
+            padding: 24px;
+            gap: 24px;
+        }
+
+        /* الجانب الأيسر: مذكرات الـ Date Object */
+        .notes-panel {
+            flex: 1;
+            max-width: 480px;
+            background-color: #162032;
+            border-radius: 12px;
+            padding: 22px;
+            border: 1px solid #283548;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .notes-panel h2 {
+            font-size: 20px;
+            color: #38bdf8;
+            border-bottom: 2px solid #283548;
+            padding-bottom: 10px;
+        }
+
+        .note-card {
+            background-color: #0d131f;
+            padding: 14px 16px;
+            border-radius: 8px;
+            border-left: 4px solid #38bdf8;
+            font-size: 13.5px;
+            line-height: 1.6;
+        }
+
+        .note-card.alert {
+            border-left-color: #f59e0b;
+        }
+
+        .note-card h3 {
+            font-size: 15px;
+            color: #ffffff;
+            margin-bottom: 6px;
+        }
+
+        code {
+            background-color: #283548;
+            color: #fbbf24;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 13px;
+        }
+
+        /* الجانب الأيمن: شاشة المخرجات التفاعلية */
+        .console-container {
+            flex: 1.3;
+            background-color: #030712;
+            border: 1px solid #1f2937;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);
+        }
+
+        .console-header {
+            background-color: #111827;
+            padding: 14px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #1f2937;
+        }
+
+        .console-header span {
+            font-weight: 600;
+            font-size: 14px;
+            color: #9ca3af;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            background-color: #10b981;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 8px;
+        }
+
+        button.action-btn {
+            background-color: #1f2937;
+            color: #e5e7eb;
+            border: 1px solid #374151;
+            padding: 6px 14px;
+            border-radius: 6px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        button.action-btn:hover {
+            background-color: #374151;
+        }
+
+        .console-output {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 14px;
+            line-height: 1.7;
+        }
+
+        .log-row {
+            padding: 4px 8px;
+            border-radius: 4px;
+            display: flex;
+            gap: 12px;
+            word-break: break-all;
+        }
+
+        .log-row:nth-child(even) {
+            background-color: #0b0f19;
+        }
+
+        .log-prefix {
+            color: #38bdf8;
+            user-select: none;
+        }
+
+        .log-content {
+            color: #f3f4f6;
+        }
+
+        @media (max-width: 850px) {
+            body {
+                flex-direction: column;
+            }
+            .notes-panel {
+                max-width: 100%;
+            }
+            .console-container {
+                min-height: 450px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- قسم الملاحظات السريعة للمذاكرة -->
+    <div class="notes-panel">
+        <h2>Date Object Guide</h2>
+
+        <div class="note-card alert">
+            <h3>Zero-Indexed Months (فخ الشهور)</h3>
+            الشهور في جافاسكريبت تبدأ من <code>0</code> (يناير = 0، أغسطس = 7، ديسمبر = 11). لذلك <code>getMonth()</code> في أغسطس ترجع <code>7</code>.
+        </div>
+
+        <div class="note-card">
+            <h3>getDate() vs getDay()</h3>
+            <code>getDate()</code>: يرجع رقم يوم الشهر (1 إلى 31).<br>
+            <code>getDay()</code>: يرجع ترتيب يوم الأسبوع (الأحد = 0، الإثنين = 1، ...).
+        </div>
+
+        <div class="note-card">
+            <h3>setFullYear() والـ Milliseconds</h3>
+            دوال التعديل (Setters) مثل <code>setFullYear</code> تقوم بتعديل كائن التاريخ نفسه، وترجع الـ <strong>Epoch Timestamp</strong> (عدد المللي ثانية منذ 1 يناير 1970).
+        </div>
+
+        <div class="note-card">
+            <h3>ملاحظة على getFullYear()</h3>
+            الدالة <code>getFullYear()</code> لا تأخذ أي معاملات (Arguments)، وإذا مررت لها رقماً يتم تجاهله وترجع فقط السنة المحفوظة داخل الكائن الحالي.
+        </div>
+    </div>
+
+    <!-- تيرمينال العرض المباشر -->
+    <div class="console-container">
+        <div class="console-header">
+            <span><span class="dot"></span> Date Output Terminal</span>
+            <div class="btn-group">
+                <button class="action-btn" onclick="clearTerminal()">Clear</button>
+                <button class="action-btn" onclick="location.reload()">Re-run</button>
+            </div>
+        </div>
+        <div class="console-output" id="terminal"></div>
+    </div>
+
+    <!-- سكربت التقاط الـ Console وعرضه مباشرة -->
+    <script>
+        const terminal = document.getElementById("terminal");
+        const realLog = console.log;
+
+        console.log = function(...args) {
+            realLog.apply(console, args);
+            const row = document.createElement("div");
+            row.className = "log-row";
+            row.innerHTML = `<span class="log-prefix">&gt;</span> <span class="log-content">${args.join(" ")}</span>`;
+            terminal.appendChild(row);
+            terminal.scrollTop = terminal.scrollHeight;
+        };
+
+        function clearTerminal() {
+            terminal.innerHTML = "";
+        }
+    </script>
+
+    <!-- اربط ملف الجافاسكريبت الخاص بك هنا بدون أي تعديل فيه -->
+    <script src="Date.js"></script>
+</body>
+</html>

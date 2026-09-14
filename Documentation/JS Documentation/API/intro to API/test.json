@@ -1,0 +1,39 @@
+[
+    {
+        "id": 1,
+        "name": "ALI",
+        "course": "React"
+    },
+
+    {
+        "id": 2,
+        "name": "mena",
+        "course": "PHP"
+    },
+    {
+        "id": 3,
+        "name": "Noha",
+        "course": "Js"
+    },
+    {
+        "id" : 4 , 
+        "name" : "Khaled",
+        "course" : "Angular"
+    }
+    ,{
+        "id" : 5 , 
+        "name" : "Mahmoud",
+        "course" : "Python"
+    },
+    {
+        "id" : 6 , 
+        "name" : "Fady",
+        "course" : "ML"
+    },
+    {
+        "id" : 7 , 
+        "name" : "Nermeen",
+        "course" : "Flutter"
+    }
+
+]

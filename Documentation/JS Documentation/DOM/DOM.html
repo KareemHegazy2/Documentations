@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOM Testing Ground</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        nav {
+            background-color: #eee;
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 2px dashed #999;
+        }
+        .section {
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+        }
+        #tracker-box {
+            width: 300px;
+            height: 150px;
+            background-color: #ddd;
+            border: 2px solid #333;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 20px;
+            user-select: none;
+        }
+        form {
+            margin: 20px 0;
+            padding: 15px;
+            background: #f9f9f9;
+            width: fit-content;
+        }
+        input {
+            display: block;
+            margin-bottom: 10px;
+            padding: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- مطلوب للسطر: document.querySelector("body nav div h1") -->
+    <!-- مطلوب لأحداث الـ Nav: mouseover, mouseenter, contextmenu... -->
+    <nav>
+        <div>
+            <h1>Testing Heading in Nav</h1>
+            <p>داخل الـ Nav لاختبار mouseover vs mouseenter</p>
+        </div>
+    </nav>
+
+    <!-- مطلوب للسطر: document.getElementsByTagName("p") -->
+    <p>Paragraph One</p>
+    <p>Paragraph Two</p>
+
+    <!-- مطلوب للسطر: document.getElementsByClassName("section") -->
+    <div class="section">Div with class section</div>
+
+    <!-- مطلوب للسطر: document.getElementById("me") -->
+    <span id="me">Span with ID "me"</span>
+
+    <!-- مطلوب للسطر: document.getElementsByName("location")[0] -->
+    <input type="text" name="location" value="Cairo">
+
+    <!-- مطلوب للسطور: document.images[0] -->
+    <div>
+        <img src="logo.png" alt="Test Image" width="100">
+    </div>
+
+    <!-- مطلوب لـ: document.querySelector("a") و document.querySelectorAll("a") -->
+    <div>
+        <a href="#home">Home Link</a>
+        <a href="#about">About Link</a>
+    </div>
+
+    <!-- مطلوب للسطر: document.querySelector("section[id=skills]") -->
+    <!-- ومطلوب له class="section" عشان يشتغل سطر: skills.classList.replace("section" , "name") بدون خطأ -->
+    <section id="skills" class="section">
+        Skills Section
+    </section>
+
+    <!-- مطلوب للسطر: document.querySelector("button") -->
+    <!-- ولأحداث الماوس: click, dblclick, mousedown, mouseup, mousemove -->
+    <button>Click / Mouse Events Button</button>
+
+    <!-- مطلوب لـ Form Events وأحداث الـ Keyboard: myForm, username, email -->
+    <form id="myForm">
+        <input type="text" id="username" placeholder="Username (Key & Live events)">
+        <input type="email" id="email" placeholder="Email">
+        <button type="submit">Submit Form</button>
+    </form>
+
+    <!-- مطلوب لأحداث المسافات والإحداثيات: clientX, pageX, offsetX -->
+    <div id="tracker-box">
+        Tracker Box (Move mouse / Click here)
+    </div>
+
+    <!-- اربط ملف الجافاسكريبت الخاص بك هنا بدون أي تعديل فيه -->
+    <script src="DOM.js"></script>
+</body>
+</html>

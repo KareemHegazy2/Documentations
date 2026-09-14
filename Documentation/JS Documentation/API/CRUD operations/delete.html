@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>delete</title>
+    <style>
+        p#error {
+            display: none;
+            color: red;
+            font-size: 20px;
+        }
+
+        p {
+            display: block;
+            color: red;
+            font-size: 20px;
+        }
+
+        #done {
+            display: none;
+            color: green;
+            font-size: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <p id="wait">Wait...</p>
+    <p id="error"> Can not Delete It , Try Again</p>
+    <pre id="done">
+        Deleted Successfully
+        Redirecting...
+    </pre>
+</body>
+<script>
+
+
+
+    let xhr = new XMLHttpRequest(); // 0
+
+    let id = location.search.slice(1).split("=")[1];
+    const deletemsg = document.getElementById("done");
+    const wait = document.querySelector("#wait");
+    const errormsg = document.querySelector("#error")
+
+    xhr.open('Delete', `https://6aa53dc21397053d42bb89a3.mockapi.io/DEPI/depi/${id}`);
+
+    xhr.send();
+    const data = [];
+    xhr.addEventListener('readystatechange', () => {
+
+        if (xhr.readyState == 4) {
+            if (xhr.status == 200) {
+                deletemsg.style.display = "block";
+                setTimeout(() => {
+                    location.assign("index.html")
+                }, 3500);
+
+            }
+            else {
+                wait.style.display = "none"
+                errormsg.style.display = "block"
+            }
+        }
+
+
+
+    })
+
+
+
+</script>
+
+</html>

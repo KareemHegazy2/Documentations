@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JS Strings & Methods Lab</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+        }
+
+        body {
+            background-color: #0b0f19;
+            color: #e2e8f0;
+            display: flex;
+            min-height: 100vh;
+            padding: 24px;
+            gap: 24px;
+        }
+
+        /* الجانب الأيسر: لوحة الشرح والعنصر التجريبي */
+        .notes-panel {
+            flex: 1;
+            max-width: 480px;
+            background-color: #111827;
+            border-radius: 12px;
+            padding: 22px;
+            border: 1px solid #1f2937;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .notes-panel h2 {
+            font-size: 20px;
+            color: #38bdf8;
+            border-bottom: 2px solid #1f2937;
+            padding-bottom: 10px;
+        }
+
+        .note-card {
+            background-color: #0b0f19;
+            padding: 14px 16px;
+            border-radius: 8px;
+            border-left: 4px solid #38bdf8;
+            font-size: 13.5px;
+            line-height: 1.6;
+        }
+
+        .note-card.success {
+            border-left-color: #10b981;
+        }
+
+        .note-card.alert {
+            border-left-color: #f59e0b;
+        }
+
+        .note-card h3 {
+            font-size: 15px;
+            color: #f8fafc;
+            margin-bottom: 6px;
+        }
+
+        code {
+            background-color: #1f2937;
+            color: #f472b6;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 13px;
+        }
+
+        /* صندوق العرض لنتيجة document.getElementById('demo') */
+        #demo-box {
+            background-color: #030712;
+            border: 1px solid #374151;
+            border-radius: 8px;
+            padding: 14px 18px;
+        }
+
+        #demo-box h4 {
+            color: #9ca3af;
+            font-size: 13px;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        #demo h2 {
+            font-size: 17px;
+            color: #60a5fa;
+            margin-bottom: 8px;
+            border-bottom: none;
+            padding: 0;
+        }
+
+        #demo ul {
+            padding-left: 20px;
+        }
+
+        #demo li {
+            margin-bottom: 4px;
+            color: #cbd5e1;
+        }
+
+        /* الجانب الأيمن: شاشة الكونسول المباشر */
+        .console-container {
+            flex: 1.3;
+            background-color: #030712;
+            border: 1px solid #1f2937;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.7);
+        }
+
+        .console-header {
+            background-color: #111827;
+            padding: 14px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #1f2937;
+        }
+
+        .console-header span {
+            font-weight: 600;
+            font-size: 14px;
+            color: #9ca3af;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            background-color: #10b981;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 8px;
+        }
+
+        button.action-btn {
+            background-color: #1f2937;
+            color: #e5e7eb;
+            border: 1px solid #374151;
+            padding: 6px 14px;
+            border-radius: 6px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        button.action-btn:hover {
+            background-color: #374151;
+        }
+
+        .console-output {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 14px;
+            line-height: 1.7;
+        }
+
+        .log-row {
+            padding: 4px 8px;
+            border-radius: 4px;
+            display: flex;
+            gap: 12px;
+            word-break: break-all;
+            white-space: pre-wrap; /* لدعم \n و \t المطبوعة في كودك */
+        }
+
+        .log-row:nth-child(even) {
+            background-color: #080c14;
+        }
+
+        .log-prefix {
+            color: #38bdf8;
+            user-select: none;
+        }
+
+        .log-content {
+            color: #f3f4f6;
+        }
+
+        @media (max-width: 850px) {
+            body {
+                flex-direction: column;
+            }
+            .notes-panel {
+                max-width: 100%;
+            }
+            .console-container {
+                min-height: 450px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- لوحة الملاحظات وشرح الـ Strings -->
+    <div class="notes-panel">
+        <h2>Strings Cheat Sheet</h2>
+
+        <!-- الحاوية المطلوبة لتشغيل سطر document.getElementById("demo") في كودك -->
+        <div id="demo-box">
+            <h4>Live DOM Output (#demo):</h4>
+            <div id="demo"></div>
+        </div>
+
+        <div class="note-card alert">
+            <h3>1. Strings are Immutable</h3>
+            النصوص في جافاسكريبت غير قابلة للتعديل؛ كل دوال النصوص مثل <code>replace</code>، <code>trim</code>، <code>slice</code>، <code>toUpperCase</code> ترجع <strong>نصاً جديداً تماماً</strong> ولا تُغيّر المتغير الأصلي.
+        </div>
+
+        <div class="note-card success">
+            <h3>2. at() vs charAt()</h3>
+            • <code>at(-1)</code>: يدعم الأرقام السالبة للوصول لآخر حرف بسهولة.<br>
+            • <code>charAt()</code>: لا يقبل أرقاماً سالبة، ويرجع نصاً فارغاً <code>""</code> لو كان الـ Index غير موجود.
+        </div>
+
+        <div class="note-card">
+            <h3>3. slice() vs substring()</h3>
+            • <code>slice(start, end)</code>: يقبل القيم السالبة (يحسب من اليمين).<br>
+            • <code>substring(start, end)</code>: لا يقبل السالب (يعتبره 0)، وإذا كان start أكبر من end يعكس الترتيب تلقائياً.
+        </div>
+
+        <div class="note-card">
+            <h3>4. indexOf() vs search()</h3>
+            • <code>indexOf(val, startPos)</code>: يبحث عن نص صريح ويقبل موقع بدء العد.<br>
+            • <code>search(RegExp)</code>: يدعم التعابير النمطية (Regex) مثل <code>/locate/i</code>.
+        </div>
+    </div>
+
+    <!-- تيرمينال المخرجات المباشر -->
+    <div class="console-container">
+        <div class="console-header">
+            <span><span class="dot"></span> String Methods Terminal</span>
+            <div class="btn-group">
+                <button class="action-btn" onclick="clearTerminal()">Clear</button>
+                <button class="action-btn" onclick="location.reload()">Re-run</button>
+            </div>
+        </div>
+        <div class="console-output" id="terminal"></div>
+    </div>
+
+    <!-- سكربت التقاط الـ console.log -->
+    <script>
+        const terminal = document.getElementById("terminal");
+        const realLog = console.log;
+
+        function stringifyValue(val) {
+            if (Array.isArray(val)) {
+                return `[ ${val.map(v => typeof v === 'string' ? `"${v}"` : v).join(', ')} ]`;
+            }
+            if (typeof val === 'object' && val !== null) {
+                return JSON.stringify(val);
+            }
+            return String(val);
+        }
+
+        console.log = function(...args) {
+            realLog.apply(console, args);
+            const row = document.createElement("div");
+            row.className = "log-row";
+            const message = args.map(stringifyValue).join(" ");
+            row.innerHTML = `<span class="log-prefix">&gt;</span> <span class="log-content">${message}</span>`;
+            terminal.appendChild(row);
+            terminal.scrollTop = terminal.scrollHeight;
+        };
+
+        function clearTerminal() {
+            terminal.innerHTML = "";
+        }
+    </script>
+
+    <!-- اربط ملف الجافاسكريبت الخاص بك هنا بدون أي تعديل فيه -->
+    <script src="String.js"></script>
+</body>
+</html>

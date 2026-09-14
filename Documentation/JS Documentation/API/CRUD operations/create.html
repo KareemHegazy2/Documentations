@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create</title>
+    <style>
+        input {
+            display: block;
+        }
+
+        p {
+            color: red;
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <form action="">
+        <label for="Name">Enter Your Name:</label>
+        <input id="Name" name="name" type="text">
+        <br>
+        <hr>
+        <br>
+        <label for="Email">Enter Your Email:</label>
+        <input id="Email" name="email" type="email">
+        <br>
+        <hr>
+        <br>
+        <input type="submit" value="create">
+    </form>
+    <p>Valid Data , Try Again</p>
+</body>
+<script>
+
+    function validate_email(email) {
+        email = email.trim();
+        let email_pattern = /^\w+@[a-zA-Z]+\.(com|edu|org)$/;
+        return email_pattern.test(email);
+    }
+
+    function validate_name(name) {
+        name = name.trim();
+        let name_pattern = /^[a-zA-Z\s]{3,100}$/;
+        return name_pattern.test(name);
+    }
+
+
+    const form = document.forms[0];
+    const name = document.getElementById("Name");
+    const email = document.getElementById("Email");
+    const errormsg = document.querySelector("p")
+
+
+    form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        // بنتأكد من صحة البيانات
+        if (validate_email(email.value) && validate_name(name.value)) {
+
+
+            // بنخزن البيانات عشان نعرف نتحكم فيها
+            const data = {
+                name: name.value,
+                Email: email.value
+            }
+            // حولنا البيانات لـ أسترينج عشان نقدر نبعتها
+            const jsondata = JSON.stringify(data);
+            // بنبعت البيانات
+            const xhr = new XMLHttpRequest();
+
+
+            xhr.open("POST", "https://6aa53dc21397053d42bb89a3.mockapi.io/DEPI/depi");
+
+            // بنعدل نوع البيانات عشان مش بيقبل من فورم
+            xhr.setRequestHeader("content-type", "application/json");
+
+
+            xhr.send(jsondata);
+
+            xhr.addEventListener("readystatechange", (e) => {
+                if (xhr.readyState == 4) {
+                    document.location.assign("index.html");
+
+                }
+            })
+        }
+        else {
+            errormsg.style.display = "inline-block";
+        }
+    });
+
+
+
+
+</script>
+
+</html>
